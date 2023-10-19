@@ -26,5 +26,6 @@ public class Main {
                 .getXYCoordinates(4, 1.5).toString());
         System.out.println("c2's module: " + c2.getModule());
         System.out.println("c2's phi argument: " + c2.getPhi_arg());
+        System.out.println("Are c1 and c2 equal? " + c2.equals(c2));
     }
 }
