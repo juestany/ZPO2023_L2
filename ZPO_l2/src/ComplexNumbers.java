@@ -8,8 +8,6 @@ public class ComplexNumbers extends Vector2D {
          * @param y (double) imaginary part of a complex number
          */
         super(x, y);
-//        this.phi_arg = Math.atan(this.y/this.x); // returned in radians
-//        this.module = calculateLength();
     }
 
     @Override
@@ -70,16 +68,6 @@ public class ComplexNumbers extends Vector2D {
          */
         return new ComplexNumbers(module * Math.cos(phi_arg), module * Math.sin(phi_arg));
     }
-//
-//    public static boolean equals(ComplexNumbers c1, ComplexNumbers c2) {
-//        /**
-//         * A method that checks equality between two complex numbers.
-//         * @param c1 (ComplexNumbers)
-//         * @param c2 (ComplexNumbers)
-//         * @return true if (c1.x == c2.x && c1.y == c2.y)
-//         */
-//        return c1.x == c2.x && c1.y == c2.y;
-//    }
 
     public double getModule() {
         return calculateLength();
