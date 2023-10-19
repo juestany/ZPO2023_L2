@@ -12,7 +12,7 @@ public class Vector2D {
 
     public double calculateLength() {
         /**
-         * A method that calculates length of a vector.
+         * A method that calculates the length of a vector.
          * @return vector length
          */
         return Math.sqrt(this.x * this.x + this.y * this.y);
