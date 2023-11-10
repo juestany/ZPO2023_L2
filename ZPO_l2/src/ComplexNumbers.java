@@ -1,3 +1,5 @@
+import java.util.Scanner;
+import java.util.InputMismatchException;
 public class ComplexNumbers extends Vector2D {
     private double module;
     private double phi_arg;
@@ -18,6 +20,32 @@ public class ComplexNumbers extends Vector2D {
          */
         return "\nPolar form: " + this.getModule() + "exp(" + this.getPhi_arg() + "i)\n" +
                 "Algebraic form: z = " + this.x + " + " + this.y + "i";
+    }
+
+    public void readComplexNumber() {
+        /**
+         * A method that reads user's complex number in a form of x+iy and sets it.
+         * Also removes any whitespaces, the '*' and 'i' symbol.
+         */
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter a complex number in the form of x+iy:");
+        String input = sc.nextLine();
+        input = input.replace("*", "") // remove '*' symbol
+                .replaceAll("\\s+","") // remove whitespaces
+                .replace("i", ""); // remove complex symbol 'i'
+
+        try {
+            int plusIndex = input.indexOf('+');
+            if (plusIndex == 0 || plusIndex == input.length() - 1 || plusIndex == -1) {
+                throw new InputMismatchException("Invalid input format. Expected x+iy.");
+            }
+            String real = input.substring(0, plusIndex);
+            String imag = input.substring(plusIndex);
+            this.x = Double.parseDouble(real);
+            this.y = Double.parseDouble(imag);
+        } catch (InputMismatchException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public static ComplexNumbers multiply(ComplexNumbers c1, ComplexNumbers c2) {
