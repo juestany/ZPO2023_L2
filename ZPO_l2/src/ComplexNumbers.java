@@ -1,8 +1,6 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
 public class ComplexNumbers extends Vector2D {
-    private double module;
-    private double phi_arg;
     public ComplexNumbers(double x, double y) {
         /**
          * Constructor function
@@ -113,5 +111,13 @@ public class ComplexNumbers extends Vector2D {
 
     public double getPhi_arg() {
         return Math.atan(this.y / this.x); // returned in radians
+    }
+
+    public double getX() {
+        return this.x;
+    }
+
+    public double getY() {
+        return this.y;
     }
 }
