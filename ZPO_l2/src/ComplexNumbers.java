@@ -8,6 +8,8 @@ public class ComplexNumbers extends Vector2D {
          * @param y (double) imaginary part of a complex number
          */
         super(x, y);
+//        this.phi_arg = Math.atan(this.y/this.x); // returned in radians
+//        this.module = calculateLength();
     }
 
     @Override
@@ -22,7 +24,7 @@ public class ComplexNumbers extends Vector2D {
 
     public static ComplexNumbers multiply(ComplexNumbers c1, ComplexNumbers c2) {
         /**
-         * A method that multiplies two complex numbers using
+         * A method that multiplies two complex numbers.
          * @param c1 (ComplexNumbers) first complex number
          * @param c2 (ComplexNumbers) second complex number
          * @return new complex number
@@ -35,11 +37,16 @@ public class ComplexNumbers extends Vector2D {
          * A method that divides two complex numbers.
          * @param c1 (ComplexNumbers) first complex number
          * @param c2 (ComplexNumbers) second complex number
+         * @throw ArithmeticException if(c2.x + c2.y == 0 || denominator == 0)
          * @return new complex number
          */
         double denominator = Math.pow(c2.getModule(), 2);
-        ComplexNumbers c3 = multiply(c1, c2.conjugate());
-        return new ComplexNumbers(c3.x / denominator, c3.y / denominator);
+        if(c2.x + c2.y == 0 || denominator == 0) {
+            throw new ArithmeticException("Divided by zero.");
+        } else {
+            ComplexNumbers c3 = multiply(c1, c2.conjugate());
+            return new ComplexNumbers(c3.x / denominator, c3.y / denominator);
+        }
     }
 
     public ComplexNumbers conjugate() {
@@ -68,6 +75,16 @@ public class ComplexNumbers extends Vector2D {
          */
         return new ComplexNumbers(module * Math.cos(phi_arg), module * Math.sin(phi_arg));
     }
+//
+//    public static boolean equals(ComplexNumbers c1, ComplexNumbers c2) {
+//        /**
+//         * A method that checks equality between two complex numbers.
+//         * @param c1 (ComplexNumbers)
+//         * @param c2 (ComplexNumbers)
+//         * @return true if (c1.x == c2.x && c1.y == c2.y)
+//         */
+//        return c1.x == c2.x && c1.y == c2.y;
+//    }
 
     public double getModule() {
         return calculateLength();
