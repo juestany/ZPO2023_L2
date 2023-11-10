@@ -8,8 +8,6 @@ public class ComplexNumbers extends Vector2D {
          * @param y (double) imaginary part of a complex number
          */
         super(x, y);
-//        this.phi_arg = Math.atan(this.y/this.x); // returned in radians
-//        this.module = calculateLength();
     }
 
     @Override
@@ -58,11 +56,16 @@ public class ComplexNumbers extends Vector2D {
          * A method that calculates the n-th power of a complex number.
          * @param c (ComplexNumbers)
          * @param n (int)
+         * @throw ArithmeticException if n < 0
          * @return c to the power of n
          */
-        double module = Math.pow(c.getModule(), n);
-        double phi_arg = c.getPhi_arg() * n;
-        return getXYCoordinates(module, phi_arg);
+        if(n < 0) {
+            throw new ArithmeticException("Negative exponent not supported.");
+        } else {
+            double module = Math.pow(c.getModule(), n);
+            double phi_arg = c.getPhi_arg() * n;
+            return getXYCoordinates(module, phi_arg);
+        }
     }
 
     public static ComplexNumbers getXYCoordinates(double module, double phi_arg) {
@@ -75,16 +78,6 @@ public class ComplexNumbers extends Vector2D {
          */
         return new ComplexNumbers(module * Math.cos(phi_arg), module * Math.sin(phi_arg));
     }
-//
-//    public static boolean equals(ComplexNumbers c1, ComplexNumbers c2) {
-//        /**
-//         * A method that checks equality between two complex numbers.
-//         * @param c1 (ComplexNumbers)
-//         * @param c2 (ComplexNumbers)
-//         * @return true if (c1.x == c2.x && c1.y == c2.y)
-//         */
-//        return c1.x == c2.x && c1.y == c2.y;
-//    }
 
     public double getModule() {
         return calculateLength();
