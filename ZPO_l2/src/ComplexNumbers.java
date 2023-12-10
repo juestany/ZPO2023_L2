@@ -1,5 +1,5 @@
-import java.util.Scanner;
-import java.util.InputMismatchException;
+import java.util.*;
+import java.io.*;
 public class ComplexNumbers extends Vector2D {
     public ComplexNumbers(double x, double y) {
         /**
@@ -9,6 +9,80 @@ public class ComplexNumbers extends Vector2D {
          */
         super(x, y);
     }
+
+    public static ArrayList<double[]> readComplexData(String filename) throws FileNotFoundException {
+        /**
+         * A method that reads data from file in the form of: 't x+yi' and saves it in an arraylist in the form
+         * of: 't mod arg'.
+         * @param filename (String) path of the file
+         * @returns resultArrayList (Arraylist<double[]>) an arraylist of arrays of doubles
+         * @throws FileNotFoundException
+         */
+        File file = new File(filename);
+        Scanner sc = new Scanner(file);
+
+        ArrayList<double[]> doubleArrayList = new ArrayList<>();
+        ArrayList<double[]> resultArrayList = new ArrayList<>();
+
+        sc.nextLine(); // skip first line
+        while (sc.hasNextLine()) {
+            String[] line = sc.nextLine().replace("i", "").split("\\s+"); // remove all
+                                                                // 'i' letters and split on space into [t, x+y]
+            double first, second; // first = x, second = y
+
+            String secondArg = line[1]; // x+y
+            int substringLength = secondArg.startsWith("-") ? 8 : 7; // including the length of substring depending on
+                                                                // whether there's a minus in front
+
+            first = Double.parseDouble(secondArg.substring(0, substringLength)); // parsing both to doubles
+            second = Double.parseDouble(secondArg.substring(substringLength));
+
+            double[] newLine = {Double.parseDouble(line[0]), first, second}; // reformed line
+            doubleArrayList.add(newLine);
+        }
+
+        for (double[] line : doubleArrayList) { // this loop calculates mod and arg of complex number and puts it in
+                                                // the resultArrayList
+            double[] newLine = new double[3];
+            newLine[0] = line[0];
+            ComplexNumbers complexNumber = new ComplexNumbers(line[1], line[2]);
+            newLine[1] = complexNumber.getModule();
+            newLine[2] = complexNumber.getPhi_arg();
+            resultArrayList.add(newLine);
+        }
+        return resultArrayList;
+    }
+
+    public static void saveComplexData(ArrayList<double[]> data) throws IOException {
+        /**
+         * A method that saves complex data in the form of 't mod arg'. If file already exists, the data gets written
+         * to it. If it doesn't, a new file is created.
+         * @param data (ArrayList<double[]>) data to save
+         * @throws IOException
+         */
+        File newFile = new File("out_data.out");
+        boolean fileExists = newFile.exists();
+
+        try (FileWriter writer = new FileWriter(newFile, fileExists)) {
+            if (fileExists) {
+                System.out.println("File exists. Appending data to: " + newFile.getName());
+            } else {
+                System.out.println("File created: " + newFile.getName());
+            }
+
+            writer.write("t mod arg\n");
+            for (double[] line : data) { // write data to the file
+                for (double value : line) {
+                    writer.write(value + " ");
+                }
+                writer.write("\n");
+            }
+            System.out.println("Data written to the file.");
+        } catch (IOException ex) {
+            System.out.println("An error occurred while writing data to the file.");
+        }
+    }
+
 
     @Override
     public String toString() {
